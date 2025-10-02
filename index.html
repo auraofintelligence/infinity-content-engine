@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity Engine: Vertical Micro-Drama Development Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Organic Tech -->
+    <!-- Application Structure Plan: This SPA is designed as an interactive design document. The structure flows from high-level strategy to granular implementation, mimicking a professional development plan. A single-page, scrollable format with a sticky navigation bar allows users to either read it top-to-bottom or jump to specific sections of interest. This thematic, linear flow was chosen over a dashboard layout to better tell the story of the project, guiding the user through the complex system in a logical sequence: Vision -> Architecture -> Pipeline -> Workforce -> Roadmap. Interactive elements like diagrams, charts, and a prompt builder are embedded within this narrative to allow for deeper exploration without losing context, making the dense information from multiple source documents digestible and actionable. -->
+    <!-- Visualization & Content Choices: 
+        - Market Opportunity (Bar Chart): Report Info(Sci-Fi/Romance Market Data) -> Goal(Justify project viability) -> Viz(Chart.js Bar Chart) -> Interaction(Tooltips on hover) -> Justification(Visually compares key market segment growth) -> Library(Chart.js).
+        - Core Architecture (HTML/CSS Diagram): Report Info(Infinity Engine, Obsidian Nexus concepts) -> Goal(Explain system structure) -> Viz(Flexbox/Grid diagram) -> Interaction(Click to reveal details) -> Justification(Provides a high-level, interactive map of the system's components).
+        - Content Pipeline (HTML/CSS Flowchart): Report Info(Agent swarm workflows) -> Goal(Detail the end-to-end creation process) -> Viz(Numbered step-by-step flowchart) -> Interaction(Embedded interactive elements like the Prompt Builder) -> Justification(Breaks down a complex multi-phase process into a clear, linear sequence).
+        - Prompt Builder (JS Interaction): Report Info(Art Prompting PDF) -> Goal(Demonstrate a practical tool in the pipeline) -> Viz(HTML forms) -> Interaction(User selects options to generate a prompt) -> Justification(Makes the abstract concept of AI prompting tangible and showcases automation potential).
+        - Roadmap (Chart.js Gantt-style Chart): Report Info(Phased implementation plan) -> Goal(Provide a project timeline) -> Viz(Horizontal Bar Chart) -> Interaction(Tooltips on hover) -> Justification(Clearly visualizes the project's phases and duration, making the plan concrete and measurable) -> Library(Chart.js).
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #2c2a27;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50vh;
+            max-height: 500px;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #d97706; 
+            border-bottom-color: #d97706;
+        }
+        .interactive-diagram-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .interactive-diagram-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .details-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-in-out;
+        }
+        .details-panel.open {
+            max-height: 1000px;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-bold text-xl text-amber-700">Infinity Engine</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#vision" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Vision</a>
+                        <a href="#architecture" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Architecture</a>
+                        <a href="#pipeline" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Pipeline</a>
+                        <a href="#workforce" class="nav-link px-3 py-2 rounded-md text-sm font-medium">AI Workforce</a>
+                        <a href="#roadmap" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Roadmap</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-stone-900">The Infinity Engine</h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-stone-600">A Comprehensive Development Plan for Automated Vertical Micro-Drama Production for the "Aura of intelligence" Universe.</p>
+        </div>
+
+        <section id="vision" class="mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6">1. The Vision & Market Opportunity</h2>
+            <p class="text-stone-700 mb-8 leading-relaxed">This document outlines a strategic and technical blueprint for creating a semi-autonomous content engine. The primary goal is to produce a continuous stream of vertical micro-dramas for mobile platforms, expanding the "i c. Infinity" and "Aura of intelligence" transmedia universes. By leveraging a sophisticated Mixture of Experts (MoE) AI system, we can minimize human intervention at key creative junctures, enabling rapid ideation, production, and distribution. The target market is the highly engaged, digitally native audience within the Sci-Fi Erotic Romance (SFER) and broader "Romantasy" niches, a segment demonstrating explosive growth driven by platforms like TikTok.</p>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h3 class="text-xl font-semibold text-stone-800 mb-4">Market Growth Drivers (2025 Projections)</h3>
+                <div class="chart-container h-[40vh] md:h-[50vh]">
+                    <canvas id="marketChart"></canvas>
+                </div>
+                <p class="text-sm text-stone-500 mt-4 text-center">Data synthesized from market analysis of Online Adult Entertainment, Romance, and Sci-Fi genre reports.</p>
+            </div>
+        </section>
+
+        <section id="architecture" class="mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6">2. The Core Architecture: The Infinity Engine</h2>
+            <p class="text-stone-700 mb-8 leading-relaxed">The engine's foundation is a centralized knowledge architecture, the "Obsidian Nexus." This acts as the "second brain" or systemic oracle for the entire universe, containing all lore, character profiles, market data, and narrative frameworks. AI Agent Swarms query this nexus to generate, refine, and adapt content. The entire system is governed by a "Gating Network" AI, acting as the director to ensure coherence and quality. Click on the components below to explore them.</p>
+            
+            <div class="space-y-8">
+                <div class="text-center">
+                    <div id="diagram-nexus" class="interactive-diagram-item bg-white rounded-xl shadow-lg p-6 border-2 border-amber-600 inline-block">
+                        <h4 class="text-xl font-bold">🧠 Obsidian Nexus</h4>
+                        <p class="text-stone-600">The Core Knowledge Base</p>
+                    </div>
+                    <div id="details-nexus" class="details-panel text-left max-w-4xl mx-auto mt-4 bg-stone-100 p-6 rounded-lg">
+                        <p><strong>Function:</strong> Acts as the single source of truth for the "Aura of intelligence" universe. It ingests and consolidates all project documents, character ideations, market research, narrative protocols, and musical themes.</p>
+                        <p class="mt-2"><strong>Technology:</strong> A vectorized database where content is chunked, embedded, and indexed for rapid, context-aware semantic search by the AI agents. This allows for querying complex ideas, not just keywords.</p>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <div class="text-5xl font-thin text-stone-400">↓</div>
+                </div>
+
+                <div id="diagram-gate" class="interactive-diagram-item text-center bg-white rounded-xl shadow-lg p-6 border-2 border-slate-600 max-w-md mx-auto">
+                     <h4 class="text-xl font-bold">🚦 The Gating Network</h4>
+                     <p class="text-stone-600">The AI Director</p>
+                </div>
+                <div id="details-gate" class="details-panel text-left max-w-4xl mx-auto mt-4 bg-stone-100 p-6 rounded-lg">
+                    <p><strong>Function:</strong> A master AI controller that orchestrates the various agent swarms. It interprets high-level goals (e.g., "Create a 3-part micro-drama based on the 'Jaded Artist' archetype"), breaks them down into tasks, and assigns them to the appropriate specialist agent swarm.</p>
+                    <p class="mt-2"><strong>Mechanism:</strong> Utilizes a Mixture of Experts (MoE) routing logic, ensuring the right "creative expert" AI is activated for tasks like screenwriting, storyboarding, or audio mixing.</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="text-5xl font-thin text-stone-400">↓</div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div id="diagram-lyrical" class="interactive-diagram-item text-center bg-white rounded-xl shadow-lg p-6 border-2 border-sky-500">
+                        <h4 class="text-xl font-bold">🎼 Lyrical Swarm</h4>
+                        <p class="text-stone-600">Narrative & Theme</p>
+                    </div>
+                    <div id="diagram-visual" class="interactive-diagram-item text-center bg-white rounded-xl shadow-lg p-6 border-2 border-rose-500">
+                         <h4 class="text-xl font-bold">🎨 Visual Swarm</h4>
+                         <p class="text-stone-600">Storyboard & Video</p>
+                    </div>
+                    <div id="diagram-social" class="interactive-diagram-item text-center bg-white rounded-xl shadow-lg p-6 border-2 border-emerald-500">
+                         <h4 class="text-xl font-bold">📢 Social Swarm</h4>
+                         <p class="text-stone-600">Adaptation & Distro</p>
+                    </div>
+                </div>
+                 <div id="details-lyrical" class="details-panel text-left max-w-4xl mx-auto mt-4 bg-stone-100 p-6 rounded-lg">
+                    <p><strong>Function:</strong> Interprets lyrical themes from "i c. Infinity" music to generate narrative seeds, character arcs, and dialogue skeletons. It cross-references the Obsidian Nexus for character profiles and story frameworks like "The Straddie Protocol."</p>
+                 </div>
+                 <div id="details-visual" class="details-panel text-left max-w-4xl mx-auto mt-4 bg-stone-100 p-6 rounded-lg">
+                    <p><strong>Function:</strong> Translates scripts and narrative beats into visual storyboards using AI image generation. It then uses a keyframe-to-video pipeline to generate animated sequences, handling shot composition, lighting, and character consistency.</p>
+                 </div>
+                 <div id="details-social" class="details-panel text-left max-w-4xl mx-auto mt-4 bg-stone-100 p-6 rounded-lg">
+                    <p><strong>Function:</strong> Applies the "'Mirror Universe' Protocol" to adapt the final video for different audience personas and platforms. It programmatically alters pacing, captions, and musical overlays, then manages the posting schedule.</p>
+                 </div>
+            </div>
+        </section>
+
+        <section id="pipeline" class="mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6">3. The Automated Content Pipeline</h2>
+            <p class="text-stone-700 mb-8 leading-relaxed">The pipeline is a sequential, multi-stage process that transforms a conceptual seed into a finished, distributable micro-drama. While highly automated, it incorporates critical Human-in-the-Loop (HITL) checkpoints for quality control and creative direction.</p>
+            
+            <div class="space-y-12">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="text-5xl font-bold text-amber-200 bg-amber-600 w-20 h-20 flex items-center justify-center rounded-full flex-shrink-0">1</div>
+                    <div class="bg-white rounded-xl shadow-lg p-6 w-full">
+                        <h3 class="text-xl font-semibold mb-2">Phase 1: Narrative Conception</h3>
+                        <p class="text-stone-600">The process begins with a high-level creative seed, often derived from an "i c. Infinity" song. The <strong>Lyrical Swarm</strong> analyzes the lyrics, identifies core emotions and themes, and queries the Obsidian Nexus for relevant character archetypes (e.g., 'The Runaway,' 'The Disgraced Academic') and narrative frameworks to generate a script outline.</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="text-5xl font-bold text-amber-200 bg-amber-600 w-20 h-20 flex items-center justify-center rounded-full flex-shrink-0">2</div>
+                    <div class="bg-white rounded-xl shadow-lg p-6 w-full">
+                        <h3 class="text-xl font-semibold mb-2">Phase 2: Visual Development & Storyboarding</h3>
+                        <p class="text-stone-600 mb-4">The <strong>Visual Swarm</strong> takes the script and generates a full storyboard. A key tool in this phase is the Programmatic Art Director, which uses a prompt generation formula to ensure visual consistency.</p>
+                        <div class="bg-stone-100 p-4 rounded-lg mt-4 border border-stone-200">
+                            <h4 class="font-semibold mb-3">Interactive Prompt Builder</h4>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <select id="p_style" class="rounded border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                                    <option>Cinematic Documentary</option>
+                                    <option>Watercolor Illustration</option>
+                                    <option>Neo-Noir</option>
+                                    <option>Cyberpunk Anime</option>
+                                </select>
+                                <select id="p_shot" class="rounded border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                                    <option>Low Angle Shot</option>
+                                    <option>Close-up</option>
+                                    <option>Wide Shot</option>
+                                    <option>Dolly-in</option>
+                                </select>
+                                <select id="p_light" class="rounded border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500">
+                                    <option>Soft Morning Light</option>
+                                    <option>Golden Hour</option>
+                                    <option>Hard Neon Glow</option>
+                                    <option>Moonlit</option>
+                                </select>
+                                <button id="generatePrompt" class="bg-amber-600 text-white font-bold py-2 px-4 rounded hover:bg-amber-700 transition">Generate</button>
+                            </div>
+                            <textarea id="promptResult" class="w-full mt-4 bg-white rounded border-gray-300 text-sm" rows="3" placeholder="Generated prompt will appear here..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="text-5xl font-bold text-amber-200 bg-amber-600 w-20 h-20 flex items-center justify-center rounded-full flex-shrink-0">3</div>
+                    <div class="bg-white rounded-xl shadow-lg p-6 w-full">
+                        <h3 class="text-xl font-semibold mb-2">Phase 3: Keyframe-to-Video Generation</h3>
+                        <p class="text-stone-600">Using the generated storyboards as keyframes, the <strong>Visual Swarm</strong> employs text-to-video and image-to-video models (e.g., Pika, Runway) to produce short video clips for each scene. An AI agent manages the generation queue, ensuring settings like aspect ratio (9:16) and frame rate are consistent.</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="text-5xl font-bold text-amber-200 bg-amber-600 w-20 h-20 flex items-center justify-center rounded-full flex-shrink-0">4</div>
+                    <div class="bg-white rounded-xl shadow-lg p-6 w-full">
+                        <h3 class="text-xl font-semibold mb-2">Phase 4: Refinement & Assembly (HITL)</h3>
+                        <p class="text-stone-600">This is a critical Human-in-the-Loop stage. An AI editor agent assembles a "first cut" by sequencing the generated clips. It then flags sections for human review, particularly for pacing, emotional coherence, and lip-sync accuracy. A human director uses a simple interface (inspired by the "AI Film Director Assistant") to approve, reject, or request re-generation of specific clips before final render.</p>
+                    </div>
+                </div>
+
+                 <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="text-5xl font-bold text-amber-200 bg-amber-600 w-20 h-20 flex items-center justify-center rounded-full flex-shrink-0">5</div>
+                    <div class="bg-white rounded-xl shadow-lg p-6 w-full">
+                        <h3 class="text-xl font-semibold mb-2">Phase 5: 'Mirror Universe' Adaptation & Distribution</h3>
+                        <p class="text-stone-600">The approved final cut is handed to the <strong>Social Swarm</strong>. Using the "'Mirror Universe' Protocol," an n8n workflow programmatically creates variants for different audience personas (e.g., a faster-paced version for TikTok, a more atmospheric version for Instagram Reels). The swarm then schedules and posts the content, monitoring engagement metrics to feedback into the Obsidian Nexus.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="workforce" class="mb-24 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6">4. The AI Workforce: A Mixture of Experts</h2>
+            <p class="text-stone-700 mb-8 leading-relaxed">The Infinity Engine is powered by a team of specialized AI agents, each fine-tuned for a specific creative or technical role. This Mixture of Experts (MoE) approach ensures that each task is handled by a model with the most relevant training and capabilities.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="font-bold text-lg mb-2">The Loremaster</h3>
+                    <p class="text-sm text-stone-600"><strong>Role:</strong> Knowledge Curation. Ingests, cleans, and vectorizes all new information for the Obsidian Nexus. Ensures the universe's core logic and continuity remain intact.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="font-bold text-lg mb-2">The Muse</h3>
+                    <p class="text-sm text-stone-600"><strong>Role:</strong> Creative Ideation. Queries the Nexus with conceptual prompts to generate story seeds, character conflicts, and dialogue snippets. The primary user of the Lyrical Swarm.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="font-bold text-lg mb-2">The Screenwriter</h3>
+                    <p class="text-sm text-stone-600"><strong>Role:</strong> Narrative Structuring. Takes the Muse's ideas and formats them into properly structured scripts with scene headings, action lines, and character dialogue.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="font-bold text-lg mb-2">The Art Director</h3>
+                    <p class="text-sm text-stone-600"><strong>Role:</strong> Visual Consistency. Manages the master prompt library and style guides. Ensures that character designs, locations, and overall aesthetics are consistent across all generated visuals.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="font-bold text-lg mb-2">The Cinematographer</h3>
+                    <p class="text-sm text-stone-600"><strong>Role:</strong> Shot Generation. Translates script actions into specific shot prompts (e.g., 'low angle shot,' 'dramatic close-up') and oversees the video generation models.</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="font-bold text-lg mb-2">The Marketer</h3>
+                    <p class="text-sm text-stone-600"><strong>Role:</strong> Audience Adaptation. Manages the Audience Persona Modules (APMs) and executes the 'Mirror Universe' protocol to tailor content for different platforms and viewer segments.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="roadmap" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6">5. Phased Implementation Roadmap</h2>
+            <p class="text-stone-700 mb-8 leading-relaxed">The development and deployment of the Infinity Engine will follow a phased approach, allowing for iterative testing, refinement, and scaling. Each phase builds upon the last, moving from foundational architecture to full-scale, semi-autonomous content production.</p>
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                 <h3 class="text-xl font-semibold text-stone-800 mb-4">Project Timeline (Quarters)</h3>
+                <div class="chart-container">
+                    <canvas id="roadmapChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-stone-300 mt-24">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>&copy; 2025 Aura of intelligence | Infinity Engine Project</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const marketCtx = document.getElementById('marketChart').getContext('2d');
+            new Chart(marketCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Romance (Digital)', 'Sci-Fi (Digital)', 'Romantasy (BookTok Driven)', 'SFER Niche'],
+                    datasets: [{
+                        label: 'Projected Annual Growth Rate',
+                        data: [12.5, 9.8, 25.3, 18.7],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 64, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: '#57534e' },
+                            grid: { color: '#e7e5e4' }
+                        },
+                        x: {
+                            ticks: { color: '#57534e' }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                           display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const roadmapCtx = document.getElementById('roadmapChart').getContext('2d');
+            new Chart(roadmapCtx, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        'Phase 1: Obsidian Nexus Setup', 
+                        'Phase 2: Agent Swarm Proto (Lyrical & Visual)', 
+                        'Phase 3: Pipeline Integration (v1)', 
+                        'Phase 4: HITL Interface Dev', 
+                        'Phase 5: Mirror Universe Protocol',
+                        'Phase 6: Full Automation & Scaling'
+                    ],
+                    datasets: [{
+                        label: 'Quarters',
+                        data: [
+                            [0, 2],
+                            [1, 4],
+                            [3, 6],
+                            [5, 7],
+                            [6, 8],
+                            [8, 10]
+                        ],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 64, 0.6)'
+                        ],
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            min: 0,
+                            max: 12,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'Q' + (value + 1);
+                                }
+                            },
+                            grid: { color: '#e7e5e4' }
+                        },
+                        y: {
+                           ticks: {
+                                font: { size: 10 }
+                           }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Duration: Q${context.raw[0] + 1} to Q${context.raw[1]}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const diagramItems = [
+                { trigger: 'diagram-nexus', detail: 'details-nexus' },
+                { trigger: 'diagram-gate', detail: 'details-gate' },
+                { trigger: 'diagram-lyrical', detail: 'details-lyrical' },
+                { trigger: 'diagram-visual', detail: 'details-visual' },
+                { trigger: 'diagram-social', detail: 'details-social' }
+            ];
+
+            diagramItems.forEach(item => {
+                const trigger = document.getElementById(item.trigger);
+                const detail = document.getElementById(item.detail);
+                trigger.addEventListener('click', () => {
+                    const isOpen = detail.classList.contains('open');
+                    document.querySelectorAll('.details-panel').forEach(p => p.classList.remove('open'));
+                    if (!isOpen) {
+                        detail.classList.add('open');
+                    }
+                });
+            });
+
+            document.getElementById('generatePrompt').addEventListener('click', () => {
+                const pStyle = document.getElementById('p_style').value;
+                const pShot = document.getElementById('p_shot').value;
+                const pLight = document.getElementById('p_light').value;
+                const character = "A jaded artist looking out a rain-streaked window";
+                
+                const result = `Vertical 9:16 video, ${pStyle} style. ${character}. Shot type: ${pShot}. Lighting: ${pLight}.`;
+                document.getElementById('promptResult').value = result;
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
